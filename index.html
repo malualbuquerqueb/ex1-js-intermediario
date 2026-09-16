@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contas Correntes</title>
+</head>
+
+<body>
+
+    <h1>Contas Correntes</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th onclick="ordenarPorNome()">Nome</th>
+                <th onclick="ordenarPorSaldo()">Saldo</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabelaContas">
+        </tbody>
+    </table>
+
+
+    <h2>Operação: Crédito/Débito</h2>
+
+    <label for="valor">Valor:</label>
+    <input type="text" id="valor">
+
+    <br><br>
+
+    <label for="nome">Correntista:</label>
+    <input type="text" id="nome">
+
+    <br><br>
+
+    <input type="radio" id="credito" name="operacao" value="credito">
+    <label for="credito">Crédito</label>
+
+    <input type="radio" id="debito" name="operacao" value="debito">
+    <label for="debito">Débito</label>
+
+    <br><br>
+
+    <button onclick="realizarOperacao()">Creditar/Debitar</button>
+
+
+    <script>
+
+        // array
+        const contas = [
+
+            {
+                nome: "Matheus",
+                saldo: 1500,
+
+                validarValor: function(valor) {
+                    return valor > 0;
+                },
+
+                creditar: function(valor) {
+
+                    if (this.validarValor(valor)) {
+                        this.saldo += valor;
+                    } else {
+                        alert("O valor deve ser maior que zero.");
+                    }
+
+                },
+
+                debitar: function(valor) {
+
+                    if (!this.validarValor(valor)) {
+                        alert("O valor deve ser maior que zero.");
+                        return;
+                    }
+
+                    if (valor > this.saldo) {
+                        alert("Saldo insuficiente.");
+                        return;
+                    }
+
+                    this.saldo -= valor;
+                }
+            },
+
+            {
+                nome: "Maju",
+                saldo: 1750,
+
+                validarValor: function(valor) {
+                    return valor > 0;
+                },
+
+                creditar: function(valor) {
+
+                    if (this.validarValor(valor)) {
+                        this.saldo += valor;
+                    } else {
+                        alert("O valor deve ser maior que zero.");
+                    }
+
+                },
+
+                debitar: function(valor) {
+
+                    if (!this.validarValor(valor)) {
+                        alert("O valor deve ser maior que zero.");
+                        return;
+                    }
+
+                    if (valor > this.saldo) {
+                        alert("Saldo insuficiente.");
+                        return;
+                    }
+
+                    this.saldo -= valor;
+                }
+            },
+
+            {
+                nome: "Bruno",
+                saldo: 2170,
+
+                validarValor: function(valor) {
+                    return valor > 0;
+                },
+
+                creditar: function(valor) {
+
+                    if (this.validarValor(valor)) {
+                        this.saldo += valor;
+                    } else {
+                        alert("O valor deve ser maior que zero.");
+                    }
+
+                },
+
+                debitar: function(valor) {
+
+                    if (!this.validarValor(valor)) {
+                        alert("O valor deve ser maior que zero.");
+                        return;
+                    }
+
+                    if (valor > this.saldo) {
+                        alert("Saldo insuficiente.");
+                        return;
+                    }
+
+                    this.saldo -= valor;
+                }
+            },
+
+            {
+                nome: "Heitor",
+                saldo: 1500,
+
+                validarValor: function(valor) {
+                    return valor > 0;
+                },
+
+                creditar: function(valor) {
+
+                    if (this.validarValor(valor)) {
+                        this.saldo += valor;
+                    } else {
+                        alert("O valor deve ser maior que zero.");
+                    }
+
+                },
+
+                debitar: function(valor) {
+
+                    if (!this.validarValor(valor)) {
+                        alert("O valor deve ser maior que zero.");
+                        return;
+                    }
+
+                    if (valor > this.saldo) {
+                        alert("Saldo insuficiente.");
+                        return;
+                    }
+
+                    this.saldo -= valor;
+                }
+            },
+
+            {
+                nome: "Malu",
+                saldo: 10000,
+
+                validarValor: function(valor) {
+                    return valor > 0;
+                },
+
+                creditar: function(valor) {
+
+                    if (this.validarValor(valor)) {
+                        this.saldo += valor;
+                    } else {
+                        alert("O valor deve ser maior que zero.");
+                    }
+
+                },
+
+                debitar: function(valor) {
+
+                    if (!this.validarValor(valor)) {
+                        alert("O valor deve ser maior que zero.");
+                        return;
+                    }
+
+                    if (valor > this.saldo) {
+                        alert("Saldo insuficiente.");
+                        return;
+                    }
+
+                    this.saldo -= valor;
+                }
+            }
+
+        ];
+
+
+        // completar tabela
+        function atualizarTabela() {
+
+            const tabela = document.getElementById("tabelaContas");
+
+            tabela.innerHTML = "";
+
+            contas.forEach(function(conta) {
+
+                tabela.innerHTML +=
+                    "<tr>" +
+                        "<td>" + conta.nome + "</td>" +
+                        "<td>R$ " + conta.saldo.toFixed(2) + "</td>" +
+                    "</tr>";
+
+            });
+        }
+
+
+        function ordenarPorNome() {
+
+            contas.sort(function(a, b) {
+
+                return a.nome.localeCompare(b.nome);
+
+            });
+
+            atualizarTabela();
+        }
+
+
+        function ordenarPorSaldo() {
+
+            contas.sort(function(a, b) {
+
+                return a.saldo - b.saldo;
+
+            });
+
+            atualizarTabela();
+        }
+
+
+        function realizarOperacao() {
+
+            const valor = Number(document.getElementById("valor").value);
+            const nome = document.getElementById("nome").value;
+            const operacao = document.querySelector(
+                'input[name="operacao"]:checked'
+            );
+
+
+            // ver se operação foi escolhida
+            if (operacao == null) {
+                alert("Selecione uma operação.");
+                return;
+            }
+
+            // procurar
+            let contaEncontrada = null;
+
+            contas.forEach(function(conta) {
+
+                if (conta.nome.toLowerCase() == nome.toLowerCase()) {
+                    contaEncontrada = conta;
+                }
+
+            });
+
+
+            // verificar
+            if (contaEncontrada == null) {
+                alert("Correntista não encontrado.");
+                return;
+            }
+
+
+            // realizar
+            if (operacao.value == "credito") {
+
+                contaEncontrada.creditar(valor);
+
+            } else {
+
+                contaEncontrada.debitar(valor);
+
+            }
+
+            atualizarTabela();
+        }
+
+        atualizarTabela();
+
+    </script>
+
+      <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #fff5fa;
+        }
+
+        h1, h2 {
+            color: #d63384;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 500px;
+            background-color: white;
+        }
+
+        th {
+            background-color: #f3a6c8;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        td {
+            border: 1px solid #f3a6c8;
+            padding: 10px;
+        }
+
+        input[type="text"] {
+            padding: 7px;
+            border: 1px solid #f3a6c8;
+            border-radius: 5px;
+        }
+
+
+        button {
+            background-color: #d63384;
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 50px;
+        }
+
+        button:hover {
+            background-color: #b52b6f;
+        }
+
+    </style>
+
+</body>
+
+</html>
